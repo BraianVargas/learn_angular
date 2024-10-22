@@ -1,0 +1,9 @@
+{
+  "/locations": {
+    "target": "http://localhost:3000/locations",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
+  

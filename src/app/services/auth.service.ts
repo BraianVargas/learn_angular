@@ -1,34 +1,26 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:3000/users';
 
-  constructor(private http: HttpClient) {}
+  private apiUrl = 'https://thedevarg.pythonanywhere.com/login';  
 
-  login(username: string, password: string): Observable<boolean> {
-    return this.http.get<any[]>(`${this.apiUrl}?username=${username}&password=${password}`)
-      .pipe(
-        map(users => {
-          if (users.length > 0) {
-            localStorage.setItem('user', JSON.stringify(users[0]));
-            return true;
-          }
-          return false;
-        })
-      );
-  }
+  constructor(private http: HttpClient) { }
 
-  logout(): void {
-    localStorage.removeItem('user');
-  }
+  login(username: string, password: string): Observable<any> {
+    const body = { username, password };
 
-  isLoggedIn(): boolean {
-    return localStorage.getItem('user') !== null;
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/json',
+    //   'x-access-token': '123'
+    // });
+
+    return this.http.post<any>(this.apiUrl, body);
   }
 }
